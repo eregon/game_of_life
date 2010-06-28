@@ -16,7 +16,7 @@
 
 require 'game_of_life'
 
-describe GameOfLife do
+describe "GameOfLife (Basic)" do
   let(:game) {
     GameOfLife.new(3)
   }

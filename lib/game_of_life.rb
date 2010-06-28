@@ -1,7 +1,10 @@
+# encoding: utf-8
+require_relative 'module'
+
 class Cell
-  attr_reader :alive
-  alias :alive? :alive
-  def initialize(alive = true)
+  ALIVE, DEAD = '#', ' ' # O· # ○
+  attr_reader :alive?
+  def initialize(alive = rand(2))
     alive = (alive == 1) if alive.is_a? Integer
     @alive = alive
   end
@@ -14,15 +17,34 @@ class Cell
     end)
   end
 
+  def == other
+    (Cell === other and other.alive? == @alive) or self.to_i == other
+  end
+
   def to_i
     @alive ? 1 : 0
+  end
+
+  def to_s
+    @alive ? ALIVE : DEAD
   end
 end
 
 class GameOfLife
   def initialize(width, height = width)
-    @width, @height = width, height
-    @state = Array.new(height) { Array.new(width) { Cell.new }  }
+    case width
+    when Array
+      self.state = width
+      @height, @width = @state.size, @state.first.size
+    when String
+      @state = width.lines.map { |line|
+        line.chomp.chars.map { |v| Cell.new(%w[x].include? v) }
+      }
+      @height, @width = @state.size, @state.first.size
+    else
+      @width, @height = width, height
+      @state = Array.new(height) { Array.new(width) { Cell.new }  }
+    end
   end
 
   def state
@@ -45,12 +67,33 @@ class GameOfLife
 
   def evolve
     @new_state = @state.map(&:dup)
-    @state.each_with_index do |row, i|
-      row.each_with_index do |cell, j|
-        @new_state[i][j] = cell.evolve( neighbours(j,i) )
+    @state.each_with_index do |row, y|
+      row.each_with_index do |cell, x|
+        @new_state[y][x] = cell.evolve( neighbours(x,y) )
       end
     end
     @state = @new_state
     state
   end
+
+  def [](x, y)
+    @state[y % @height][x % @width]
+  end
+  def []=(x, y, v)
+    @state[y % @height][x % @width] = Cell.new(v)
+  end
+
+  def to_s
+    @state.map(&:join).join("\n")
+  end
+end
+
+if __FILE__ == $0
+  game = GameOfLife.new IO.read('patterns/glider.txt')
+  100.times {
+    game.evolve
+    # puts "\n"*10
+    puts game
+    sleep(0.3)
+  }
 end
