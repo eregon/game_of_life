@@ -15,8 +15,7 @@
 #######################################################################################################################
 
 
-require File.join(File.dirname(__FILE__), 'game_of_life')
-require 'rubygems'
+require '../lib/game_of_life'
 require 'test/unit'
 
 class GameOfLifeTest < Test::Unit::TestCase

@@ -3,7 +3,7 @@
 #
 
 ## REQUIRE YOUR OWN CLASS HERE ##
-require 'game_of_life'
+require 'lib/game_of_life'
 W = 20 # cell width
 
 Shoes.app :title => 'Game of Life'do
