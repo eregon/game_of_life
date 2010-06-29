@@ -5,10 +5,6 @@ class Integer
 end
 
 module Boolean
-  def alive?
-    self
-  end
-  
   def to_i
     self ? 1 : 0
   end
@@ -18,7 +14,7 @@ module Boolean
   end
   
   def evolve(neighbors)
-    if alive?
+    if self
       (2..3).include? neighbors
     else
       neighbors == 3
@@ -65,7 +61,7 @@ class GameOfLife
 
   NEIGHBORS = [[1,0], [1,1], [0,1], [-1,1], [-1,0], [-1,-1], [0,-1], [1,-1]]
   def neighbors x, y
-    NEIGHBORS.count { |dx, dy| self[x+dx, y+dy].alive? }
+    NEIGHBORS.count { |dx, dy| self[x+dx, y+dy] }
   end
 
   def evolve
