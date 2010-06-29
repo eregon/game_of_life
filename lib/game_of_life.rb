@@ -10,10 +10,10 @@ class Cell
   end
 
   def evolve(neighbours)
-    Cell.new(if @alive
-      (2..3).include? neighbours.count(&:alive?)
+    Cell.new(if alive?
+      (2..3).include? neighbours
     else
-      neighbours.count(&:alive?) == 3
+      neighbours == 3
     end)
   end
 
@@ -56,12 +56,8 @@ class GameOfLife
   end
 
   def neighbours cell_x, cell_y
-    [[1,0], [1,1], [0,1], [-1,1], [-1,0], [-1,-1], [0,-1], [1,-1]].map { |dx, dy|
-      # As written in README:
-      # edges of game: just pretend that the board is folded onto itself, and the edges touch each other.
-      # So 0 - 1 must be mapped to last, which ary[-1] does
-      # But ary.size must be mapped to 0, so we can simply % it
-      @state[(cell_y + dy) % @height][(cell_x + dx) % @width]
+    [[1,0], [1,1], [0,1], [-1,1], [-1,0], [-1,-1], [0,-1], [1,-1]].count { |dx, dy|
+      self[cell_x + dx, cell_y + dy].alive?
     }
   end
 
@@ -76,9 +72,14 @@ class GameOfLife
     state
   end
 
+  # As written in README:
+  # edges of game: just pretend that the board is folded onto itself, and the edges touch each other.
+  # So 0 - 1 must be mapped to last, which ary[-1] does
+  # But ary.size must be mapped to 0, so we can simply % it
   def [](x, y)
     @state[y % @height][x % @width]
   end
+
   def []=(x, y, v)
     @state[y % @height][x % @width] = Cell.new(v)
   end
