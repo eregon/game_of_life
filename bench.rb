@@ -21,3 +21,4 @@ __END__
 30,30 0.088 1543ea Boolean optimize a bit by removing Boolean#alive? as it returns self
 30,30 0.364 ffde80 State   Add game_of_life_state and the Gosper_glider_gun
 30,30 0.385 ffde80 Cell    Add game_of_life_state and the Gosper_glider_gun
+30,30 0.959 b482a8 Fiber   Add game_of_life_fiber

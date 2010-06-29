@@ -3,9 +3,7 @@ class Module
   def attr_reader(*attributes)
     attributes.each { |attribute|
       if attribute.id2name.end_with? '?'
-        define_method(attribute) {
-          instance_variable_get("@#{attribute[0...-1]}")
-        }
+        class_eval "def #{attribute}; @#{attribute[0...-1]}; end"
       else
         _attr_reader(attribute)
       end
