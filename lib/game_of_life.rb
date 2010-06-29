@@ -1,4 +1,8 @@
 # encoding: utf-8
+
+require 'rubygems'
+require 'backports'
+
 require_relative 'module'
 
 class Cell
@@ -9,11 +13,11 @@ class Cell
     @alive = alive
   end
 
-  def evolve(neighbours)
+  def evolve(neighbors)
     Cell.new(if alive?
-      (2..3).include? neighbours
+      (2..3).include? neighbors
     else
-      neighbours == 3
+      neighbors == 3
     end)
   end
 
@@ -38,7 +42,7 @@ class GameOfLife
       @height, @width = @state.size, @state.first.size
     when String
       @state = width.lines.map { |line|
-        line.chomp.chars.map { |v| Cell.new(%w[x].include? v) }
+        line.chomp.chars.map { |v| Cell.new(%w[x X].include? v) }
       }
       @height, @width = @state.size, @state.first.size
     else
@@ -48,24 +52,23 @@ class GameOfLife
   end
 
   def state
-    @state.map { |row| row.map { |cell| cell.to_i } }
+    @state
   end
 
   def state= state
     @state = state.map { |row| row.map { |i| Cell.new(i) } }
   end
 
-  def neighbours cell_x, cell_y
-    [[1,0], [1,1], [0,1], [-1,1], [-1,0], [-1,-1], [0,-1], [1,-1]].count { |dx, dy|
-      self[cell_x + dx, cell_y + dy].alive?
-    }
+  DIRECTIONS = [[1,0], [1,1], [0,1], [-1,1], [-1,0], [-1,-1], [0,-1], [1,-1]]
+  def neighbors x, y
+    DIRECTIONS.count { |dx, dy| self[x+dx, y+dy].alive? }
   end
 
   def evolve
     @new_state = @state.map(&:dup)
     @state.each_with_index do |row, y|
       row.each_with_index do |cell, x|
-        @new_state[y][x] = cell.evolve( neighbours(x,y) )
+        @new_state[y][x] = cell.evolve( neighbors(x,y) )
       end
     end
     @state = @new_state
