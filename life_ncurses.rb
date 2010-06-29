@@ -17,10 +17,10 @@ require 'ffi-ncurses'
 class LifeNcurses
 
   # spaces from the border of the terminal
-  MARGIN = 2
+  MARGIN = 1
   include FFI::NCurses
 
-  def initialize(game_of_life,iterations=100)
+  def initialize(game_of_life, iterations = 100)
     @stdscr = initscr
     cbreak
     (1..iterations).each do |generation|
@@ -28,6 +28,7 @@ class LifeNcurses
       display_title(generation)
       show game_of_life.evolve
     end
+  rescue Interrupt
   ensure
     endwin
   end
@@ -39,7 +40,7 @@ class LifeNcurses
       end
     end
     refresh
-    sleep 1
+    sleep 0.1
   end
 
   def display_title(generation)
