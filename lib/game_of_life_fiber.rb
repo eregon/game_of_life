@@ -1,24 +1,47 @@
+raise "Need Ruby 1.9 because it depends on Fiber" if RUBY_VERSION < '1.9'
+
 require_relative 'module'
 
-class Cell
+# This is largely inspired by Daniel Moore's solution to his own "Game of Life" Ruby Quiz
+# The solution use abuse of Fiber, and is really interesting (but do not expect it to be fast)
+# I commented it a little, because Fiber is not so easy to understand
+
+class Cell < Fiber
   ALIVE, DEAD = '#', ' '
   attr_reader :alive?
+
   def initialize(alive = rand(2))
     alive = (alive == 1) if alive.is_a? Integer
-    @alive = alive
-    @future = :unknown
-  end
 
-  def figure_evolution(neighbors)
-    @future = if @alive
-      (2..3).include? neighbors
-    else
-      neighbors == 3
+    super() do # So this is Fiber.new { }
+      loop do
+        # First Fiber.yield: wait for caller to give neighbors
+        # Here the caller has to give the number of alive neighbors as an argument to #resume
+        neighbors = Fiber.yield(alive)
+
+        alive = if alive
+          (2..3) === neighbors
+        else
+          3 == neighbors
+        end
+
+        # Second Fiber.yield: update @alive
+        # This simply update `@alive` to `alive`, and is #resume in #evolve
+        Fiber.yield(alive)
+      end
     end
+
+    # We go until the first Fiber.yield
+    # The return value is `alive`, which is what we want for `@alive`
+    @alive = resume
   end
 
-  def evolve!
-    @alive = @future
+  def evolve
+    @alive = resume
+  end
+
+  def neighbors= neighbors
+    resume(neighbors)
   end
 
   def == other
@@ -37,7 +60,7 @@ end
 class GameOfLife
   attr_reader :state
   def self.implementation
-    "State"
+    Fiber
   end
 
   def initialize(width, height = width)
@@ -61,17 +84,17 @@ class GameOfLife
   end
 
   NEIGHBORS = [[1,0], [1,1], [0,1], [-1,1], [-1,0], [-1,-1], [0,-1], [1,-1]]
-  def neighbors x, y
+  def alive_neighbors x, y
     NEIGHBORS.count { |dx, dy| self[x+dx, y+dy].alive? }
   end
 
   def evolve
     @state.each_with_index do |row, y|
       row.each_with_index do |cell, x|
-        cell.figure_evolution neighbors(x,y)
+        cell.neighbors = alive_neighbors(x, y)
       end
     end
-    @state.each { |row| row.each { |cell| cell.evolve! } }
+    @state.each { |row| row.each { |cell| cell.evolve } }
   end
 
   # As written in README:

@@ -90,13 +90,3 @@ class GameOfLife
     @state.map(&:join).join("\n")
   end
 end
-
-if __FILE__ == $0
-  game = GameOfLife.new IO.read('patterns/glider.txt')
-  100.times {
-    game.evolve
-    # puts "\n"*10
-    puts game
-    sleep(0.3)
-  }
-end

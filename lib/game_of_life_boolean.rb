@@ -8,11 +8,11 @@ module Boolean
   def to_i
     self ? 1 : 0
   end
-  
+
   def == other
     (Boolean === other and other == self) or self.to_i == other
   end
-  
+
   def evolve(neighbors)
     if self
       (2..3).include? neighbors
@@ -94,14 +94,4 @@ class GameOfLife
   def to_s
     @state.map(&:join).join("\n")
   end
-end
-
-if __FILE__ == $0
-  game = GameOfLife.new IO.read('patterns/glider.txt')
-  100.times {
-    game.evolve
-    # puts "\n"*10
-    puts game
-    sleep(0.3)
-  }
 end

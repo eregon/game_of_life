@@ -11,7 +11,7 @@ time = Benchmark.realtime {
 File.open(__FILE__, 'a') { |fh|
   log = `git log`.lines.to_a
   commit, message = log[0].split.last[0...6], log[4].strip
-  fh.puts "#{SIZE},#{EVOLUTIONS} #{"%.3f" % time} #{commit} #{GameOfLife.implementation.to_s.ljust(7)} #{message}"
+  fh.puts(p "#{SIZE},#{EVOLUTIONS} #{"%.3f" % time} #{commit} #{GameOfLife.implementation.to_s.ljust(7)} #{message}")
 }
 
 __END__
