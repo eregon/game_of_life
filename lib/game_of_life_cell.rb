@@ -31,6 +31,10 @@ class Cell
 end
 
 class GameOfLife
+  def self.implementation
+    Cell
+  end
+
   def initialize(width, height = width)
     case width
     when Array

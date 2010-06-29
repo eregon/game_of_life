@@ -35,6 +35,10 @@ class FalseClass
 end
 
 class GameOfLife
+  def self.implementation
+    Boolean
+  end
+
   def initialize(width, height = width)
     case width
     when Array

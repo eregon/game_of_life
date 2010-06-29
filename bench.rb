@@ -11,10 +11,11 @@ time = Benchmark.realtime {
 File.open(__FILE__, 'a') { |fh|
   log = `git log`.lines.to_a
   commit, message = log[0].split.last[0...6], log[4].strip
-  fh.puts "#{SIZE},#{EVOLUTIONS} #{"%.3f" % time} #{commit} #{message}"
+  fh.puts "#{SIZE},#{EVOLUTIONS} #{"%.3f" % time} #{commit} #{GameOfLife.implementation.to_s.ljust(7)} #{message}"
 }
 
 __END__
-30,30 0.431 1b9591 Vendor backports
-30,30 0.444 e73220 add a little benchmark util which log on itself the results
-30,30 0.104 a53a1e add a Boolean-based GameOfLife
+30,30 0.431 1b9591 Cell    Vendor backports
+30,30 0.444 e73220 Cell    add a little benchmark util which log on itself the results
+30,30 0.104 a53a1e Boolean add a Boolean-based GameOfLife
+30,30 0.088 1543ea Boolean optimize a bit by removing Boolean#alive? as it returns self
