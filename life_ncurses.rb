@@ -27,19 +27,19 @@ class LifeNcurses
       clear
       display_title(generation)
       show game_of_life.evolve
-    end 
+    end
   ensure
     endwin
   end
 
   def show(state)
-    state.each_with_index do |row,row_index|
+    state.each_with_index do |row, row_index|
       row.each_with_index do |col, col_index|
         mvwaddstr @stdscr, row_index+MARGIN, col_index+MARGIN, '#' if state[row_index][col_index] == 1
       end
     end
     refresh
-    sleep 1 
+    sleep 1
   end
 
   def display_title(generation)
