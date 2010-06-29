@@ -22,3 +22,6 @@ __END__
 30,30 0.364 ffde80 State   Add game_of_life_state and the Gosper_glider_gun
 30,30 0.385 ffde80 Cell    Add game_of_life_state and the Gosper_glider_gun
 30,30 0.959 b482a8 Fiber   Add game_of_life_fiber
+30,30 0.438 28a948 Fiber   Optimize module.rb: class_eval("") is twice faster than define_method
+30,30 0.122 28a948 Cell    Optimize module.rb: class_eval("") is twice faster than define_method
+30,30 0.106 28a948 State   Optimize module.rb: class_eval("") is twice faster than define_method
