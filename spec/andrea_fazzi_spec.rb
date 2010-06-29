@@ -111,7 +111,7 @@ describe "GameOfLife (Andrea Fazzi)" do
 
   it 'should return a string' do
     game.evolve
-    game.to_s.should == "....\n....\n.oo.\n....\n....".tr('o.', Cell::ALIVE+Cell::DEAD)
+    game.to_s.should == "....\n....\n.oo.\n....\n....".tr('o.', (Cell::ALIVE+Cell::DEAD rescue "# "))
   end
 end
 

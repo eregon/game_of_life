@@ -16,4 +16,4 @@ File.open(__FILE__, 'a') { |fh|
 
 __END__
 30,30 0.431 1b9591 Vendor backports
-30,30 0.444 7fef08 add a little benchmark util which log on itself the results
+30,30 0.444 e73220 add a little benchmark util which log on itself the results
