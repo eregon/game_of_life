@@ -6,14 +6,19 @@ class Cell
   def initialize(alive = rand(2))
     alive = (alive == 1) if alive.is_a? Integer
     @alive = alive
+    @future = :unknown
   end
 
-  def evolve(neighbors)
-    Cell.new(if @alive
+  def figure_evolution(neighbors)
+    @future = if @alive
       (2..3).include? neighbors
     else
       neighbors == 3
-    end)
+    end
+  end
+  
+  def evolve!
+    @alive = @future
   end
 
   def == other
@@ -30,8 +35,9 @@ class Cell
 end
 
 class GameOfLife
+  attr_reader :state
   def self.implementation
-    Cell
+    "State"
   end
 
   def initialize(width, height = width)
@@ -50,10 +56,6 @@ class GameOfLife
     end
   end
 
-  def state
-    @state
-  end
-
   def state= state
     @state = state.map { |row| row.map { |i| Cell.new(i) } }
   end
@@ -64,14 +66,12 @@ class GameOfLife
   end
 
   def evolve
-    @new_state = @state.map(&:dup)
     @state.each_with_index do |row, y|
       row.each_with_index do |cell, x|
-        @new_state[y][x] = cell.evolve( neighbors(x,y) )
+        cell.figure_evolution neighbors(x,y)
       end
     end
-    @state = @new_state
-    state
+    @state.each { |row| row.each { |cell| cell.evolve! } }
   end
 
   # As written in README:
@@ -92,10 +92,9 @@ class GameOfLife
 end
 
 if __FILE__ == $0
-  game = GameOfLife.new IO.read('patterns/glider.txt')
+  game = GameOfLife.new IO.read('patterns/Gosper_glider_gun.txt')
   100.times {
     game.evolve
-    # puts "\n"*10
     puts game
     sleep(0.3)
   }

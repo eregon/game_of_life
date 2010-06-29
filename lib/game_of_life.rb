@@ -4,4 +4,4 @@ if RUBY_VERSION < "1.9.2"
   require "backports"
 end
 
-require File.expand_path("../game_of_life_boolean", __FILE__)
+require File.expand_path("../game_of_life_state", __FILE__)

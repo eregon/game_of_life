@@ -19,3 +19,4 @@ __END__
 30,30 0.444 e73220 Cell    add a little benchmark util which log on itself the results
 30,30 0.104 a53a1e Boolean add a Boolean-based GameOfLife
 30,30 0.088 1543ea Boolean optimize a bit by removing Boolean#alive? as it returns self
+30,30 0.364 450eb2 State   Add game_of_life_state and the Gosper_glider_gun
