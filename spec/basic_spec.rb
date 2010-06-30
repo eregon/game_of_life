@@ -14,7 +14,7 @@
 # Plus varying parameters on initialization allows you to do cooler things, like play with different sizes, seeds, etc.
 #######################################################################################################################
 
-require 'game_of_life'
+require 'spec_helper'
 
 describe "GameOfLife (Basic)" do
   let(:game) {

@@ -1,4 +1,4 @@
-require 'game_of_life'
+require 'spec_helper'
 
 describe "GameOfLife (Andrea Fazzi)" do
   let(:game) {

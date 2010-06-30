@@ -76,7 +76,8 @@ class GameOfLife
       @grid = Grid.new(Array.new(@height*@width) { rand(2) == 1 }, @width, @height)
     end
     @size = @width*@height
-    @neighbors = [1, -@width+1, -@width, -@width-1, -1, @width-1, @width, @width+1]
+    @neighbors = [1, 1-@width, -@width, -1-@width, -1, @width-1, @width, @width+1]
+    @false_ary = Array.new(@size) { false }
   end
 
   def state
@@ -86,14 +87,18 @@ class GameOfLife
     @grid = Grid.new(state.map { |row| row.map { |i| i == 1 } }.flatten, state.first.size, state.size)
   end
 
+  #NEIGHBORS = [[1,0], [1,1], [0,1], [-1,1], [-1,0], [-1,-1], [0,-1], [1,-1]]
   def neighbors i
+    #convert = -> v { [v % @width, v / @width] }
+    #x, y = convert[i]
+    #NEIGHBORS.count { |dx, dy| @grid[x+dx, y+dy] }
     @neighbors.count { |delta|
-      @grid.grid[(i+delta) - @size] # - @size is a bit faster than % @size (~4%)
+      @grid.grid[(i+delta) % @size] # - @size is a bit faster than % @size (~4%)
     }
   end
 
   def evolve
-    @new_grid = Grid.new(Array.new(@height*@width) { false }, @width, @height)
+    @new_grid = Grid.new(@false_ary.dup, @width, @height)
     @size.times { |i|
       @new_grid.grid[i] = true if @grid.grid[i].evolve( neighbors(i) )
     }

@@ -50,3 +50,5 @@ __END__
 30,30 0.106 State   Optimize module.rb: class_eval("") is twice faster than define_method
 30,30 0.090 Integer add game_of_life_integer, use attr_reader for @state
 30,30 [Boolean: 0.089, Integer: 0.092, State: 0.107, Cell: 0.121, Fiber: 0.432]
+30,30 0.069 Fast    add Fast implementation
+30,30 [Fast: 0.072, Boolean: 0.091, Integer: 0.092, State: 0.109, Cell: 0.120, Fiber: 0.449]
