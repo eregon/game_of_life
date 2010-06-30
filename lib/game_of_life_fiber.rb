@@ -36,12 +36,10 @@ class Cell < Fiber
     @alive = resume
   end
 
+  alias :neighbors= :resume
+
   def evolve
     @alive = resume
-  end
-
-  def neighbors= neighbors
-    resume(neighbors)
   end
 
   def == other
