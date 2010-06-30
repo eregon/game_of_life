@@ -4,7 +4,9 @@ if RUBY_VERSION < "1.9.2"
   require "backports"
 end
 
-require File.expand_path("../game_of_life_" + "integer", __FILE__)
+unless defined? GameOfLife
+  require File.expand_path("../game_of_life_" + "integer", __FILE__)
+end
 
 if __FILE__ == $0
   game = GameOfLife.new IO.read('patterns/Gosper_glider_gun.txt')

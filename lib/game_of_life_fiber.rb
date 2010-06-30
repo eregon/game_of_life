@@ -1,6 +1,6 @@
 raise "Need Ruby 1.9 because it depends on Fiber" if RUBY_VERSION < '1.9'
 
-require_relative 'module'
+require File.expand_path('../module', __FILE__)
 
 # This is largely inspired by Daniel Moore's solution to his own "Game of Life" Ruby Quiz
 # The solution use abuse of Fiber, and is really interesting (but do not expect it to be fast)

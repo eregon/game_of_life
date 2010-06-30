@@ -1,4 +1,4 @@
-require_relative 'module'
+require File.expand_path('../module', __FILE__)
 
 class Cell
   ALIVE, DEAD = '#', ' '
