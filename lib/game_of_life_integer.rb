@@ -1,37 +1,17 @@
-require_relative 'module'
-
-class Cell
-  ALIVE, DEAD = '#', ' '
-  attr_reader :alive?
-  def initialize(alive = rand(2))
-    alive = (alive == 1) if alive.is_a? Integer
-    @alive = alive
-  end
-
+class Integer
   def evolve(neighbors)
-    Cell.new(if @alive
+    evolution = if self == 1
       (2..3).include? neighbors
     else
       neighbors == 3
-    end)
-  end
-
-  def == other
-    (Cell === other and other.alive? == @alive) or self.to_i == other
-  end
-
-  def to_i
-    @alive ? 1 : 0
-  end
-
-  def to_s
-    @alive ? ALIVE : DEAD
+    end
+    evolution ? 1 : 0
   end
 end
 
 class GameOfLife
   def self.implementation
-    Cell
+    Integer
   end
 
   def initialize(width, height = width)
@@ -41,23 +21,20 @@ class GameOfLife
       @height, @width = @state.size, @state.first.size
     when String
       @state = width.lines.map { |line|
-        line.chomp.chars.map { |v| Cell.new(%w[x X].include? v) }
+        line.chomp.chars.map { |v| (%w[x X].include? v) ? 1 : 0 }
       }
       @height, @width = @state.size, @state.first.size
     else
       @width, @height = width, height
-      @state = Array.new(height) { Array.new(width) { Cell.new }  }
+      @state = Array.new(height) { Array.new(width) { rand(2) }  }
     end
   end
 
-  attr_reader :state
-  def state= state
-    @state = state.map { |row| row.map { |i| Cell.new(i) } }
-  end
+  attr_accessor :state
 
   NEIGHBORS = [[1,0], [1,1], [0,1], [-1,1], [-1,0], [-1,-1], [0,-1], [1,-1]]
   def neighbors x, y
-    NEIGHBORS.count { |dx, dy| self[x+dx, y+dy].alive? }
+    NEIGHBORS.count { |dx, dy| self[x+dx, y+dy] == 1 }
   end
 
   def evolve
@@ -79,10 +56,10 @@ class GameOfLife
   end
 
   def []=(x, y, v)
-    @state[y % @height][x % @width] = Cell.new(v)
+    @state[y % @height][x % @width] = v
   end
 
   def to_s
-    @state.map(&:join).join("\n")
+    @state.map { |row| row.map { |i| i == 1 ? '#' : ' ' }.join }.join("\n")
   end
 end

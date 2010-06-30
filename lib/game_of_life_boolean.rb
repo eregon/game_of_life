@@ -1,9 +1,3 @@
-class Integer
-  def to_b
-    self == 1 ? true : false
-  end
-end
-
 module Boolean
   def to_i
     self ? 1 : 0
@@ -55,10 +49,7 @@ class GameOfLife
     end
   end
 
-  def state
-    @state
-  end
-
+  attr_reader :state
   def state= state
     @state = state.map { |row| row.map { |i| i == 1 } }
   end
@@ -76,7 +67,6 @@ class GameOfLife
       end
     end
     @state = @new_state
-    state
   end
 
   # As written in README:

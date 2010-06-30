@@ -35,7 +35,6 @@ class Cell
 end
 
 class GameOfLife
-  attr_reader :state
   def self.implementation
     "State"
   end
@@ -56,6 +55,7 @@ class GameOfLife
     end
   end
 
+  attr_reader :state
   def state= state
     @state = state.map { |row| row.map { |i| Cell.new(i) } }
   end
