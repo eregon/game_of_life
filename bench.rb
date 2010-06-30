@@ -25,3 +25,4 @@ __END__
 30,30 0.438 28a948 Fiber   Optimize module.rb: class_eval("") is twice faster than define_method
 30,30 0.122 28a948 Cell    Optimize module.rb: class_eval("") is twice faster than define_method
 30,30 0.106 28a948 State   Optimize module.rb: class_eval("") is twice faster than define_method
+30,30 0.090 9113b8 Integer add game_of_life_integer, use attr_reader for @state
