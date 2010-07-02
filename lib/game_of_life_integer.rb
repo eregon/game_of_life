@@ -30,7 +30,11 @@ class GameOfLife
     end
   end
 
-  attr_accessor :state
+  attr_reader :state
+  def state= state
+    @height, @width = state.size, state.first.size
+    @state = state
+  end
 
   NEIGHBORS = [[1,0], [1,1], [0,1], [-1,1], [-1,0], [-1,-1], [0,-1], [1,-1]]
   def neighbors x, y

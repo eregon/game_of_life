@@ -52,3 +52,5 @@ __END__
 30,30 [Boolean: 0.089, Integer: 0.092, State: 0.107, Cell: 0.121, Fiber: 0.432]
 30,30 0.069 Fast    add Fast implementation
 30,30 [Fast: 0.072, Boolean: 0.091, Integer: 0.092, State: 0.109, Cell: 0.120, Fiber: 0.449]
+30,30 0.053 Fast    Heavy refactoring of game_of_life_fast, and awesome speed improvement :)
+30,30 [Fast: 0.056, Boolean: 0.090, Integer: 0.092, State: 0.111, Fiber: 0.439, Cell: 0.440]

@@ -38,6 +38,10 @@ class GameOfLife
     Array.new(@height) { |y| Array.new(@width) { |x| @grid[y * @width + x] } }
   end
   def state= state
+    @height, @width = state.size, state.first.size
+    @size = @width*@height
+    @neighbors = [1, 1-@width, -@width, -1-@width, -1, @width-1, @width, @width+1]
+    @false_ary = Array.new(@size) { false }
     @grid = state.map { |row| row.map { |i| i == 1 } }.flatten
   end
 

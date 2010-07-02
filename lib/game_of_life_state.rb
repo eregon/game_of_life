@@ -57,6 +57,7 @@ class GameOfLife
 
   attr_reader :state
   def state= state
+    @height, @width = state.size, state.first.size
     @state = state.map { |row| row.map { |i| Cell.new(i) } }
   end
 
