@@ -1,3 +1,5 @@
+require File.expand_path('../../ext/game_of_life_c', __FILE__)
+
 class TrueClass
   def == o
     equal?(o) or o == 1
@@ -10,10 +12,6 @@ class FalseClass
 end
 
 class GameOfLife
-  def self.implementation
-    "Fast"
-  end
-
   def initialize(width, height = width)
     case width
     when Array
@@ -30,38 +28,13 @@ class GameOfLife
       @grid = Array.new(@height*@width) { rand(2) == 1 }
     end
     @size = @width*@height
-    @neighbors = [1, 1-@width, -@width, -1-@width, -1, @width-1, @width, @width+1]
-    @false_ary = Array.new(@size) { false }
   end
 
-  def state
-    Array.new(@height) { |y| Array.new(@width) { |x| @grid[y * @width + x] } }
-  end
   def state= state
     @height, @width = state.size, state.first.size
     @size = @width*@height
-    @neighbors = [1, 1-@width, -@width, -1-@width, -1, @width-1, @width, @width+1]
     @false_ary = Array.new(@size) { false }
     @grid = state.map { |row| row.map { |i| i == 1 } }.flatten
-  end
-
-  #NEIGHBORS = [[1,0], [1,1], [0,1], [-1,1], [-1,0], [-1,-1], [0,-1], [1,-1]]
-  def neighbors i
-    #convert = -> v { [v % @width, v / @width] }
-    #x, y = convert[i]
-    #NEIGHBORS.count { |dx, dy| @grid[x+dx, y+dy] }
-    @neighbors.count { |delta|
-      @grid[(i+delta) % @size] # - @size is a bit faster than % @size (~4%)
-    }
-  end
-
-  def evolve
-    @new_grid = @false_ary.dup
-    @size.times { |i|
-      @new_grid[i] = true if (@grid[i] ? (2..3).include?(neighbors(i)) : neighbors(i) == 3)
-    }
-    @grid = @new_grid
-    state
   end
 
   # As written in README:

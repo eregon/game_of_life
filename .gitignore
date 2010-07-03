@@ -1,3 +1,6 @@
 .DS_Store
+*.bundle
+*.o
+Makefile
 lib/backports-1.18.1
 lib/ffi-ncurses
