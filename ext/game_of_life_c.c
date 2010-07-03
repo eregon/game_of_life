@@ -22,14 +22,14 @@ VALUE gol_state(VALUE self) {
   return state;
 }
 
-int gol_neighbors(VALUE self, int pos) {
+int gol_neighbors(VALUE self, int pos, int* grid) {
   int width = FIX2INT(rb_iv_get(self, "@width"));
   int size = FIX2INT(rb_iv_get(self, "@size"));
   int neighbors[] = {1, 1-width, -width, -1-width, -1, width-1, width, width+1};
   int i, count = 0;
   int p;
-  VALUE rgrid = rb_iv_get(self, "@grid");
-  VALUE *grid = RARRAY_PTR(rgrid);
+  //VALUE rgrid = rb_iv_get(self, "@grid");
+  //VALUE *grid = RARRAY_PTR(rgrid);
 
   for(i = 0; i < 8; ++i) {
     p = pos + neighbors[i];
@@ -49,12 +49,17 @@ VALUE gol_evolve(VALUE self) {
   int i, b = 0;
   int size = FIX2INT(rb_iv_get(self, "@size"));
   VALUE rgrid = rb_iv_get(self, "@grid");
-  VALUE *grid = RARRAY_PTR(rgrid);
+  //VALUE *grid = RARRAY_PTR(rgrid);
   VALUE new_grid = rb_ary_new2(size);
   int neighbors;
 
+  int grid[size];
   for(i = 0; i < size; ++i) {
-    neighbors = gol_neighbors(self, i);
+    grid[i] = (int) RARRAY_PTR(rgrid)[i];
+  }
+
+  for(i = 0; i < size; ++i) {
+    neighbors = gol_neighbors(self, i, grid);
     if(grid[i]) {
       b = (neighbors == 2 || neighbors == 3);
     } else {
