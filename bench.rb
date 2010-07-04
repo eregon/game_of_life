@@ -60,3 +60,5 @@ __END__
 30,30 [C: 0.015, Fast: 0.055, Boolean: 0.092, Integer: 0.096, State: 0.106, Cell: 0.120, Fiber: 0.448]
 30,30 0.003 C       improve gol_neighbors by computing only once the neighbors_delta
 30,30 [C: 0.004, Fast: 0.057, Boolean: 0.090, Integer: 0.092, State: 0.108, Cell: 0.183, Fiber: 0.440]
+30,30 0.002 C       improve gol_state by using rb_ary_subseq
+30,30 [C: 0.003, Fast: 0.056, Boolean: 0.092, Integer: 0.093, State: 0.108, Cell: 0.124, Fiber: 0.438]

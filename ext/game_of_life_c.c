@@ -5,20 +5,13 @@ VALUE gol_implementation() {
 }
 
 VALUE gol_state(VALUE self) {
-  int i, j;
+  int i;
   int width = FIX2INT(rb_iv_get(self, "@width"));
   int height = FIX2INT(rb_iv_get(self, "@height"));
-  VALUE rgrid = rb_iv_get(self, "@grid");
-  VALUE *grid = RARRAY_PTR(rgrid);
+  VALUE grid = rb_iv_get(self, "@grid");
   VALUE state = rb_ary_new2(height);
-  VALUE row;
-  for(i = 0; i < height; ++i) {
-    row = rb_ary_new2(width);
-    for(j = 0; j < width; ++j) {
-      rb_ary_store(row, j, grid[i*width+j]);
-    }
-    rb_ary_store(state, i, row);
-  }
+  for(i = 0; i < height; ++i)
+    rb_ary_store(state, i, rb_ary_subseq(grid, i*width, width));
   return state;
 }
 
