@@ -58,3 +58,5 @@ __END__
 30,30 [C: 0.018, Fast: 0.054, Boolean: 0.090, Integer: 0.092, State: 0.108, Cell: 0.123, Fiber: 0.434]
 30,30 0.013 C       improve game_of_life_c: create a temporary int[] from VALUE[] because it is 9*n accessed.
 30,30 [C: 0.015, Fast: 0.055, Boolean: 0.092, Integer: 0.096, State: 0.106, Cell: 0.120, Fiber: 0.448]
+30,30 0.003 C       improve gol_neighbors by computing only once the neighbors_delta
+30,30 [C: 0.004, Fast: 0.057, Boolean: 0.090, Integer: 0.092, State: 0.108, Cell: 0.183, Fiber: 0.440]

@@ -22,17 +22,12 @@ VALUE gol_state(VALUE self) {
   return state;
 }
 
-int gol_neighbors(VALUE self, int pos, int* grid) {
-  int width = FIX2INT(rb_iv_get(self, "@width"));
-  int size = FIX2INT(rb_iv_get(self, "@size"));
-  int neighbors[] = {1, 1-width, -width, -1-width, -1, width-1, width, width+1};
+int gol_neighbors(int neighbors_delta[], int pos, int grid[], int size) {
   int i, count = 0;
   int p;
-  //VALUE rgrid = rb_iv_get(self, "@grid");
-  //VALUE *grid = RARRAY_PTR(rgrid);
 
   for(i = 0; i < 8; ++i) {
-    p = pos + neighbors[i];
+    p = pos + neighbors_delta[i];
     if(p < 0) {
       p += size;
     } else if(p >= size) {
@@ -46,26 +41,22 @@ int gol_neighbors(VALUE self, int pos, int* grid) {
 }
 
 VALUE gol_evolve(VALUE self) {
-  int i, b = 0;
+  int i, neighbors, b = 0;
+  int width = FIX2INT(rb_iv_get(self, "@width"));
   int size = FIX2INT(rb_iv_get(self, "@size"));
   VALUE rgrid = rb_iv_get(self, "@grid");
-  //VALUE *grid = RARRAY_PTR(rgrid);
   VALUE new_grid = rb_ary_new2(size);
-  int neighbors;
+  int neighbors_delta[] = {1, 1-width, -width, -1-width, -1, width-1, width, width+1};
 
   int grid[size];
-  for(i = 0; i < size; ++i) {
+  for(i = 0; i < size; ++i)
     grid[i] = (int) RARRAY_PTR(rgrid)[i];
-  }
 
   for(i = 0; i < size; ++i) {
-    neighbors = gol_neighbors(self, i, grid);
-    if(grid[i]) {
-      b = (neighbors == 2 || neighbors == 3);
-    } else {
-      b = (neighbors == 3);
-    }
-    rb_ary_store(new_grid, i, (b ? Qtrue : Qfalse));
+    neighbors = gol_neighbors(neighbors_delta, i, grid, size);
+    rb_ary_store(new_grid, i, (
+      (neighbors == 3 || (neighbors == 2 && grid[i])) ? Qtrue : Qfalse)
+    );
   }
 
   rb_iv_set(self, "@grid", new_grid);
