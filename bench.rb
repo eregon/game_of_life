@@ -31,7 +31,6 @@ else
   }
 
   File.open(__FILE__, 'a') { |fh|
-    log = `git log`.lines.to_a
     message = `git log`.lines.take(5).last.strip
     fh.puts(p "#{SIZE},#{EVOLUTIONS} #{"%.3f" % time} #{GameOfLife.implementation.to_s.ljust(7)} #{message}")
   }
