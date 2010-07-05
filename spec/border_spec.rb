@@ -19,7 +19,7 @@ describe "GameOfLife (Border)" do
       game.state.should == spaceship
     end
   end
-  
+
   # Theoric spec
   # [ , , ]
   # [ ,p, ]

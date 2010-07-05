@@ -62,13 +62,11 @@ class GameOfLife
   end
 
   def evolve
-    @new_state = @state.map(&:dup)
-    @state.each_with_index do |row, y|
-      row.each_with_index do |cell, x|
-        @new_state[y][x] = cell.evolve( neighbors(x,y) )
+    @state = @state.map.with_index do |row, y|
+      row.map.with_index do |cell, x|
+        cell.evolve( neighbors(x,y) )
       end
     end
-    @state = @new_state
   end
 
   # As written in README:

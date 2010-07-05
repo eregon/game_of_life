@@ -62,3 +62,5 @@ __END__
 30,30 [C: 0.004, Fast: 0.057, Boolean: 0.090, Integer: 0.092, State: 0.108, Cell: 0.183, Fiber: 0.440]
 30,30 0.002 C       improve gol_state by using rb_ary_subseq
 30,30 [C: 0.003, Fast: 0.056, Boolean: 0.092, Integer: 0.093, State: 0.108, Cell: 0.124, Fiber: 0.438]
+30,30 0.002 C       Fix the problem of 1-dimensional Arrays with neighbors
+30,30 [C: 0.003, Fast: 0.070, Boolean: 0.089, Integer: 0.092, State: 0.110, Cell: 0.122, Fiber: 0.432]

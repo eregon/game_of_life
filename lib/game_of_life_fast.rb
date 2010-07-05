@@ -30,7 +30,7 @@ class GameOfLife
       @grid = Array.new(@height*@width) { rand(2) == 1 }
     end
     @size = @width*@height
-    @neighbors = [1, 1-@width, -@width, -1-@width, -1, @width-1, @width, @width+1]
+    @deltas = [1, 1-@width, -@width, -1-@width, -1, @width-1, @width, @width+1]
     @false_ary = Array.new(@size) { false }
   end
 
@@ -40,27 +40,27 @@ class GameOfLife
   def state= state
     @height, @width = state.size, state.first.size
     @size = @width*@height
-    @neighbors = [1, 1-@width, -@width, -1-@width, -1, @width-1, @width, @width+1]
+    @deltas = [1, 1-@width, -@width, -1-@width, -1, @width-1, @width, @width+1]
     @false_ary = Array.new(@size) { false }
     @grid = state.map { |row| row.map { |i| i == 1 } }.flatten
   end
 
-  #NEIGHBORS = [[1,0], [1,1], [0,1], [-1,1], [-1,0], [-1,-1], [0,-1], [1,-1]]
-  def neighbors i
-    #convert = -> v { [v % @width, v / @width] }
-    #x, y = convert[i]
-    #NEIGHBORS.count { |dx, dy| @grid[x+dx, y+dy] }
-    @neighbors.count { |delta|
-      @grid[(i+delta) % @size] # - @size is a bit faster than % @size (~4%)
-    }
-  end
-
   def evolve
-    @new_grid = @false_ary.dup
-    @size.times { |i|
-      @new_grid[i] = true if (@grid[i] ? (2..3).include?(neighbors(i)) : neighbors(i) == 3)
+    width, size, deltas = @width, @size, @deltas
+    delta_bad_left = -width-1
+    delta_bad_right = width+1
+    @grid = @grid.map.with_index { |e, i|
+      neighbors = deltas.count { |delta|
+        try = i+delta
+        if delta == delta_bad_left and i % width == 0
+          try += 3*width
+        elsif delta == delta_bad_right and i % width == width-1
+          try -= 3*width
+        end
+        @grid[try % size]
+      }
+      (neighbors == 3 or (neighbors == 2 and e))
     }
-    @grid = @new_grid
     state
   end
 
