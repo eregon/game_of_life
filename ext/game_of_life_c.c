@@ -29,15 +29,15 @@ VALUE gol_implementation() {
   @size = @width*@height
 end */
 
-VALUE gol_initialize_block2(VALUE v, VALUE data2, int argc, VALUE argv) {
+VALUE gol_initialize_block_char(VALUE v, VALUE data2, int argc, VALUE argv) {
   char c = RSTRING_PTR(v)[0];
   return BOOL(c == 'X' || c == 'x');
 }
 
-VALUE gol_initialize_block(VALUE line, VALUE data2, int argc, VALUE argv) {
+VALUE gol_initialize_block_line(VALUE line, VALUE data2, int argc, VALUE argv) {
   line = rb_funcall(line, rb_intern("chomp"), 0);
   line = rb_funcall(line, rb_intern("chars"), 0);
-  return rb_block_call(line, rb_intern("map"), 0, EMPTY_ARGS, gol_initialize_block2, Qnil);
+  return rb_block_call(line, rb_intern("map"), 0, EMPTY_ARGS, gol_initialize_block_char, Qnil);
 }
 
 VALUE gol_initialize(int argc, VALUE *argv, VALUE self) {
@@ -49,7 +49,7 @@ VALUE gol_initialize(int argc, VALUE *argv, VALUE self) {
     gol_set_state(self, first);
   } else if(rb_obj_is_kind_of(first, rb_cString)) {
     VALUE ary = rb_funcall(first, rb_intern("lines"), 0);
-    gol_set_state(self, rb_block_call(ary, rb_intern("map"), 0, EMPTY_ARGS, gol_initialize_block, Qnil));
+    gol_set_state(self, rb_block_call(ary, rb_intern("map"), 0, EMPTY_ARGS, gol_initialize_block_line, Qnil));
   } else {
     int width  = NUM2INT(first);
     int height = NUM2INT(second);
