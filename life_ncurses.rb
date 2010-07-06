@@ -45,7 +45,7 @@ class LifeNcurses
 
   def display_title(generation)
     now = Time.now
-    mvwaddstr @stdscr, 0, 1, "Game of life: Generation #{generation}, fps: #{(1/(now-@last_time)).to_i}"
+    mvwaddstr @stdscr, 0, 1, "Game of life: Generation #{generation}, gps: #{(1/(now-@last_time)).to_i}"
     @last_time = now
   end
 

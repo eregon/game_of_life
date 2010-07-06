@@ -69,7 +69,7 @@ Shoes.app :title => 'Game of Life'do
 
     flow do
       para link('slower') { stop; @fps.text = @fps.text.to_i-1; start }
-      para 'fps: '
+      para 'gps: '
       @fps = para '5'
       para link('faster') { stop; @fps.text = @fps.text.to_i+1; start }
       para 'real fps: '
