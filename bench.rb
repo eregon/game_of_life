@@ -63,3 +63,5 @@ __END__
 30,30 [C: 0.003, Fast: 0.056, Boolean: 0.092, Integer: 0.093, State: 0.108, Cell: 0.124, Fiber: 0.438]
 30,30 0.002 C       Fix the problem of 1-dimensional Arrays with neighbors
 30,30 [C: 0.003, Fast: 0.070, Boolean: 0.089, Integer: 0.092, State: 0.110, Cell: 0.122, Fiber: 0.432]
+30,30 0.005 NArray  add game_of_life_narray, which is ... fast and nice :)
+30,30 [C: 0.003, NArray: 0.018, Fast: 0.068, Integer: 0.091, Boolean: 0.093, State: 0.108, Cell: 0.121, Fiber: 0.396]
