@@ -154,17 +154,6 @@ VALUE gol_aref(VALUE self, VALUE x, VALUE y) {
   return rb_ary_entry(grid, ((FIX2INT(y)+height) % height) * width + ((FIX2INT(x)+width) % width));
 }
 
-/* def []=(x, y, v)
-  @grid[(y % @height) * @width + (x % @width)] = v
-end */
-VALUE gol_aset(VALUE self, VALUE x, VALUE y, VALUE v) {
-  int height = FIX2INT(rb_iv_get(self, "@height"));
-  int width = FIX2INT(rb_iv_get(self, "@width"));
-  VALUE grid = rb_iv_get(self, "@grid");
-  rb_ary_store(grid, ((FIX2INT(y)+height) % height) * width + ((FIX2INT(x)+width) % width), v);
-  return v;
-}
-
 /* def to_s
   @height.times.map { |y|
     @width.times.map { |x|
@@ -204,7 +193,6 @@ void Init_game_of_life_c() {
   rb_define_method(cGameOfLife, "state=", gol_set_state, 1);
   rb_define_method(cGameOfLife, "evolve", gol_evolve, 0);
   rb_define_method(cGameOfLife, "[]", gol_aref, 2);
-  rb_define_method(cGameOfLife, "[]=", gol_aset, 3);
   rb_define_method(cGameOfLife, "to_s", gol_to_s, 0);
 
   rb_define_method(rb_cTrueClass, "==", true_equal, 1);

@@ -15,23 +15,14 @@ class GameOfLife
   end
 
   def initialize(width, height = width)
-    case width
+    self.state = case width
     when Array
-      @height, @width = width.size, width.first.size
-      @grid = width.map { |row| row.map { |i| i == 1 } }.flatten
+      width
     when String
-      ary = width.lines.map { |line|
-        line.chomp.chars.map { |v| (%w[x X].include? v) }
-      }
-      @height, @width = ary.size, ary.first.size
-      @grid = ary.flatten
+      width.lines.map { |line| line.chomp.chars.map { |v| %w[x X].include? v } }
     else
-      @width, @height = width, height
-      @grid = Array.new(@height*@width) { rand(2) == 1 }
+      Array.new(height) { Array.new(width) { rand(2) } }
     end
-    @size = @width*@height
-    @deltas = [1, 1-@width, -@width, -1-@width, -1, @width-1, @width, @width+1]
-    @false_ary = Array.new(@size) { false }
   end
 
   def state
@@ -64,16 +55,8 @@ class GameOfLife
     state
   end
 
-  # As written in README:
-  # edges of game: just pretend that the board is folded onto itself, and the edges touch each other.
-  # So 0 - 1 must be mapped to last, which ary[-1] does
-  # But ary.size must be mapped to 0, so we can simply % it
   def [](x, y)
     @grid[(y % @height) * @width + (x % @width)]
-  end
-
-  def []=(x, y, v)
-    @grid[(y % @height) * @width + (x % @width)] = v
   end
 
   def to_s

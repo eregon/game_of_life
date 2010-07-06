@@ -3,7 +3,7 @@ require File.expand_path('../module', __FILE__)
 class Cell
   ALIVE, DEAD = '#', ' '
   attr_reader :alive?
-  def initialize(alive = rand(2))
+  def initialize(alive)
     alive = (alive == 1) if alive.is_a? Integer
     @alive = alive
     @future = :unknown
@@ -40,18 +40,13 @@ class GameOfLife
   end
 
   def initialize(width, height = width)
-    case width
+    self.state = case width
     when Array
-      self.state = width
-      @height, @width = @state.size, @state.first.size
+      width
     when String
-      @state = width.lines.map { |line|
-        line.chomp.chars.map { |v| Cell.new(%w[x X].include? v) }
-      }
-      @height, @width = @state.size, @state.first.size
+      width.lines.map { |line| line.chomp.chars.map { |v| %w[x X].include? v } }
     else
-      @width, @height = width, height
-      @state = Array.new(height) { Array.new(width) { Cell.new }  }
+      Array.new(height) { Array.new(width) { rand(2) } }
     end
   end
 
@@ -75,16 +70,8 @@ class GameOfLife
     @state.each { |row| row.each { |cell| cell.evolve! } }
   end
 
-  # As written in README:
-  # edges of game: just pretend that the board is folded onto itself, and the edges touch each other.
-  # So 0 - 1 must be mapped to last, which ary[-1] does
-  # But ary.size must be mapped to 0, so we can simply % it
   def [](x, y)
     @state[y % @height][x % @width]
-  end
-
-  def []=(x, y, v)
-    @state[y % @height][x % @width] = Cell.new(v)
   end
 
   def to_s
