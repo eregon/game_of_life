@@ -1,12 +1,10 @@
-namespace :spec do
-  desc "run specs across all implementations"
-  task :run do
-    Dir['./lib/game_of_life_*.rb'].each { |implementation|
-      puts
-      puts implementation.split('_').last
-      puts `rspec -f progress -r #{implementation} spec`.lines.reject { |line| line.chomp.empty? }.join
-    }
-  end
+desc "run specs across all implementations"
+task :spec do
+  Dir['./lib/game_of_life_*.rb'].each { |implementation|
+    puts
+    puts implementation.split('_').last
+    puts `rspec -f progress -r #{implementation} spec`.lines.reject { |line| line.chomp.empty? }.join
+  }
 end
 
 namespace :bench do
@@ -38,5 +36,5 @@ namespace :bench do
   end
 end
 
-task :default => ["spec:run"]
+task :default => [:spec]
 task :bench => ["bench:single", "bench:compare"]
