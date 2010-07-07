@@ -1,4 +1,5 @@
 .DS_Store
+.rake_cache
 *.bundle
 *.o
 Makefile
