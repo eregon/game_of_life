@@ -29,3 +29,5 @@ size,evolutions,implementation,git commit message
 30,30 [C: 0.003, NArray: 0.018, Fast: 0.068, Integer: 0.091, Boolean: 0.093, State: 0.108, Cell: 0.121, Fiber: 0.396]
 30,30 0.002 C       move code from bench.rb to Rakefile, and use a better way to bench.
 30,30 [C: 0.002, NArray: 0.005, Fast: 0.066, Boolean: 0.088, Integer: 0.091, State: 0.105, Cell: 0.121, Fiber: 0.395]
+30,30 0.002 CWrap   add game_of_life_cwrap
+30,30 [CWrap: 0.002, C: 0.002, NArray: 0.005, Fast: 0.066, Boolean: 0.087, Integer: 0.091, State: 0.105, Cell: 0.121, Fiber: 0.392]
