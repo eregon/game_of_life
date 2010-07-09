@@ -10,11 +10,17 @@ end
 namespace :bench do
   SIZE = 30
   EVOLUTIONS = 30
+  require "timeout"
 
   def bench(file)
-    implementation = File.basename(file,'.rb').split('_').last.capitalize
-    implementation, time = `ruby -r ./#{file} bench.rb #{SIZE} #{EVOLUTIONS}`.lines.to_a
-    [implementation.chomp, time.to_f]
+    begin
+      implementation, time = Timeout.timeout(1) {
+        `ruby -r ./#{file} bench.rb #{SIZE} #{EVOLUTIONS}`.lines.to_a
+      }
+      [implementation.chomp, time.to_f]
+    rescue Timeout::Error
+      [nil, nil]
+    end
   end
 
   desc "run single bench on default implementation in lib/game_of_life.rb"
@@ -24,12 +30,13 @@ namespace :bench do
     puts result = "#{SIZE},#{EVOLUTIONS} #{"%.3f" % time} #{implementation.ljust(7)} #{message}"
     File.open('bench.log', 'a') { |fh| fh.puts(result) }
   end
+
   desc "run comparative bench on all implementations"
   task :compare do
     results = Dir['lib/game_of_life_*.rb'].map { |file|
       implementation, time = bench(file)
-      "#{implementation}: #{"%.3f" % time}"
-    }.sort_by { |s| s[-3..-1].to_i }.join(', ')
+      "#{implementation}: #{"%.3f" % time}" if time
+    }.compact.sort_by { |s| s[-3..-1].to_i }.join(', ')
 
     puts results = "#{SIZE},#{EVOLUTIONS} [#{results}]"
     File.open('bench.log', 'a') { |fh| fh.puts(results) }

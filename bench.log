@@ -31,3 +31,7 @@ size,evolutions,implementation,git commit message
 30,30 [C: 0.002, NArray: 0.005, Fast: 0.066, Boolean: 0.088, Integer: 0.091, State: 0.105, Cell: 0.121, Fiber: 0.395]
 30,30 0.002 CWrap   add game_of_life_cwrap
 30,30 [CWrap: 0.002, C: 0.002, NArray: 0.005, Fast: 0.066, Boolean: 0.087, Integer: 0.091, State: 0.105, Cell: 0.121, Fiber: 0.392]
+50,50 0.009 CWrap   add game_of_life_cwrap
+50,50 [CWrap: 0.009, C: 0.009, NArray: 0.033, Fast: 0.305, Boolean: 0.405, Integer: 0.452, State: 0.498, Cell: 0.563]
+100,100 0.066 CWrap   add game_of_life_cwrap
+100,100 [C: 0.065, CWrap: 0.079]
