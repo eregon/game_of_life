@@ -16,7 +16,7 @@ typedef struct Grid {
   int height;
   int width;
   int size;
-  int* grid;
+  char* grid;
 } Grid;
 
 static VALUE gol_alloc(VALUE klass) {
@@ -87,7 +87,7 @@ static VALUE gol_set_state(VALUE self, VALUE state) {
   grid->height = height;
   grid->width = width;
   grid->size = height*width;
-  grid->grid = ALLOC_N(int, grid->size);
+  grid->grid = ALLOC_N(char, grid->size);
 
   VALUE row;
   int i, j;
@@ -105,8 +105,8 @@ static VALUE gol_evolve(VALUE self) {
   Data_Get_Struct(self, Grid, cgrid);
   int width = cgrid->width;
   int size  = cgrid->size;
-  int *grid = cgrid->grid;
-  int *new_grid = ALLOC_N(int, size);
+  char *grid = cgrid->grid;
+  char *new_grid = ALLOC_N(char, size);
 
   int i, n, p, neighbors;
   int neighbors_delta[] = {1, 1-width, -width, -1-width, -1, width-1, width, width+1};

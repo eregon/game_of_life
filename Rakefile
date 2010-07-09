@@ -19,6 +19,7 @@ namespace :bench do
       }
       [implementation.chomp, time.to_f]
     rescue Timeout::Error
+      sleep 0.5
       [nil, nil]
     end
   end
