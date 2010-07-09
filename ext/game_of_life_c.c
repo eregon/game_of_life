@@ -2,12 +2,12 @@
 
 #define BOOL(b) ((b) ? Qtrue : Qfalse)
 
-VALUE gol_set_state(VALUE self, VALUE state);
+static VALUE gol_set_state(VALUE self, VALUE state);
 
-VALUE EMPTY_ARGS[] = {};
+static VALUE EMPTY_ARGS[] = {};
 extern VALUE EMPTY_ARGS[];
 
-VALUE gol_implementation() {
+static VALUE gol_implementation() {
   return rb_str_new2("C");
 }
 
@@ -29,18 +29,18 @@ VALUE gol_implementation() {
   @size = @width*@height
 end */
 
-VALUE gol_initialize_block_char(VALUE v, VALUE data2, int argc, VALUE argv) {
+static VALUE gol_initialize_block_char(VALUE v, VALUE data2, int argc, VALUE argv) {
   char c = RSTRING_PTR(v)[0];
   return BOOL(c == 'X' || c == 'x');
 }
 
-VALUE gol_initialize_block_line(VALUE line, VALUE data2, int argc, VALUE argv) {
+static VALUE gol_initialize_block_line(VALUE line, VALUE data2, int argc, VALUE argv) {
   line = rb_funcall(line, rb_intern("chomp"), 0);
   line = rb_funcall(line, rb_intern("chars"), 0);
   return rb_block_call(line, rb_intern("map"), 0, EMPTY_ARGS, gol_initialize_block_char, Qnil);
 }
 
-VALUE gol_initialize(int argc, VALUE *argv, VALUE self) {
+static VALUE gol_initialize(int argc, VALUE *argv, VALUE self) {
   VALUE first, second;
   rb_scan_args(argc, argv, "11", &first, &second);
   if(NIL_P(second))
@@ -51,23 +51,23 @@ VALUE gol_initialize(int argc, VALUE *argv, VALUE self) {
     VALUE ary = rb_funcall(first, rb_intern("lines"), 0);
     gol_set_state(self, rb_block_call(ary, rb_intern("map"), 0, EMPTY_ARGS, gol_initialize_block_line, Qnil));
   } else {
-    int width  = NUM2INT(first);
-    int height = NUM2INT(second);
-    int size = width*height;
-    VALUE grid = rb_ary_new2(size);
-    int i;
-    for(i = 0; i < size; ++i)
-      rb_ary_store(grid, i, BOOL(rb_genrand_real() < 0.5));
-    rb_iv_set(self, "@width" , INT2FIX(width));
-    rb_iv_set(self, "@height", INT2FIX(height));
-    rb_iv_set(self, "@size"  , INT2FIX(size));
-    rb_iv_set(self, "@grid"  , grid);
+    int width  = NUM2INT(first), height = NUM2INT(second);
+    VALUE grid = rb_ary_new2(height), row;
+    int i, j;
+    for(i = 0; i < height; ++i) {
+      row = rb_ary_new2(width);
+      for(j = 0; j < width; ++j) {
+        rb_ary_store(row, j, BOOL(rb_genrand_real() < 0.5));
+      }
+      rb_ary_store(grid, i, row);
+    }
+    gol_set_state(self, grid);
   }
-  return Qnil;
+  return self;
 }
 
 // Array.new(@height) { |y| Array.new(@width) { |x| @grid[y * @width + x] } }
-VALUE gol_state(VALUE self) {
+static VALUE gol_state(VALUE self) {
   int i;
   int height = FIX2INT(rb_iv_get(self, "@height"));
   int width = FIX2INT(rb_iv_get(self, "@width"));
@@ -83,7 +83,7 @@ VALUE gol_state(VALUE self) {
   @size = @width*@height
   @grid = state.map { |row| row.map { |i| i == 1 } }.flatten
 end */
-VALUE gol_set_state(VALUE self, VALUE state) {
+static VALUE gol_set_state(VALUE self, VALUE state) {
   int height = (int) RARRAY_LEN(state);
   int width = (int) RARRAY_LEN(RARRAY_PTR(state)[0]);
   int size = width*height;
@@ -102,7 +102,7 @@ VALUE gol_set_state(VALUE self, VALUE state) {
   return Qnil;
 }
 
-VALUE gol_evolve(VALUE self) {
+static VALUE gol_evolve(VALUE self) {
   int width = FIX2INT(rb_iv_get(self, "@width"));
   int size = FIX2INT(rb_iv_get(self, "@size"));
   VALUE rgrid = rb_iv_get(self, "@grid");
@@ -146,7 +146,7 @@ VALUE gol_evolve(VALUE self) {
 /* def [](x, y)
   @grid[(y % @height) * @width + (x % @width)]
 end */
-VALUE gol_aref(VALUE self, VALUE x, VALUE y) {
+static VALUE gol_aref(VALUE self, VALUE x, VALUE y) {
   int height = FIX2INT(rb_iv_get(self, "@height"));
   int width = FIX2INT(rb_iv_get(self, "@width"));
   VALUE grid = rb_iv_get(self, "@grid");
@@ -161,12 +161,12 @@ VALUE gol_aref(VALUE self, VALUE x, VALUE y) {
     }.join
   }.join("\n")
 end */
-VALUE gol_to_s(VALUE self) {
+static VALUE gol_to_s(VALUE self) {
   int height = FIX2INT(rb_iv_get(self, "@height"));
   int width = FIX2INT(rb_iv_get(self, "@width"));
   VALUE grid = rb_iv_get(self, "@grid");
   int x, y, size = height*width;
-  char s[size+height-1];
+  char s[size+height];
   for(y = 0; y < height; ++y) {
     for(x = 0; x < width; ++x) {
       s[y*(width+1) + x] = (RARRAY_PTR(grid)[y*width + x] ? '#' : ' ');
@@ -174,14 +174,15 @@ VALUE gol_to_s(VALUE self) {
     if(y != height-1)
       s[y*(width+1)+width] = '\n';
   }
+  s[size+height-1] = '\0';
   return rb_str_new2(s);
 }
 
-VALUE true_equal(VALUE self, VALUE other) {
+static VALUE true_equal(VALUE self, VALUE other) {
   return BOOL(other == self || (FIXNUM_P(other) && FIX2INT(other) == 1));
 }
 
-VALUE false_equal(VALUE self, VALUE other) {
+static VALUE false_equal(VALUE self, VALUE other) {
   return BOOL(other == self || (FIXNUM_P(other) && !FIX2INT(other)));
 }
 

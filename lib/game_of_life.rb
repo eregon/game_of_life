@@ -5,7 +5,7 @@ if RUBY_VERSION < "1.9.2"
 end
 
 unless defined? GameOfLife
-  require File.expand_path("../game_of_life_" + "c", __FILE__)
+  require File.expand_path("../game_of_life_" + "cwrap", __FILE__)
 end
 
 if __FILE__ == $0
