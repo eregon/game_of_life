@@ -35,8 +35,8 @@ class LifeNcurses
 
   def show(state)
     state.each_with_index do |row, row_index|
-      row.each_with_index do |col, col_index|
-        mvwaddstr @stdscr, MARGIN+row_index, MARGIN+col_index, '#' if state[row_index][col_index] == 1
+      row.each_with_index do |cell,col_index|
+        mvwaddstr @stdscr, MARGIN+row_index, MARGIN+col_index, '#' if cell == 1
       end
     end
     refresh
