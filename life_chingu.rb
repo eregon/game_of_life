@@ -12,11 +12,10 @@ class Main < Chingu::Window
   CELL_SIZE = 5
   attr_reader :game, :sleep
   def initialize(game, sleep)
-    @game, @sleep = game, sleep.to_f
     @height, @width = game.state.size*CELL_SIZE, game.state.first.size*CELL_SIZE
     super(@width, @height, false)
     self.input = { :esc => :exit }
-    push_game_state(GameOfLifeState)
+    push_game_state(GameOfLifeState.new(game, sleep))
   end
 
   def draw
@@ -28,10 +27,9 @@ end
 class GameOfLifeState < Chingu::GameState
   CELL_SIZE = Main::CELL_SIZE
   TIME_DELTA = 0.01
-  def initialize
-    super
-    @window = $window
-    @game, @sleep = @window.game, @window.sleep
+  def initialize(game, sleep)
+    super()
+    @game, @sleep = game, sleep.to_f
     @generation = 0
     @last_time = Time.now
     @running = true
@@ -54,10 +52,10 @@ class GameOfLifeState < Chingu::GameState
 
   def draw
     super()
-    @window.caption = @caption
+    $window.caption = @caption
     @game.state.each_with_index do |row, y|
       row.each_with_index do |cell,x|
-        @window.fill_rect([x*CELL_SIZE, y*CELL_SIZE, CELL_SIZE, CELL_SIZE], 0xff0000aa) if cell == 1
+        $window.fill_rect([x*CELL_SIZE, y*CELL_SIZE, CELL_SIZE, CELL_SIZE], 0xff0000aa) if cell == 1
       end
     end
     sleep @sleep
