@@ -56,6 +56,7 @@ class GameOfLifeState < Chingu::GameState
     @game.state.each_with_index do |row, y|
       row.each_with_index do |cell,x|
         $window.fill_rect([x*CELL_SIZE, y*CELL_SIZE, CELL_SIZE, CELL_SIZE], 0xff0000aa) if cell == 1
+        # $window.draw_circle(x*CELL_SIZE, y*CELL_SIZE, CELL_SIZE/2, 0xff0000aa) if cell == 1
       end
     end
     sleep @sleep
