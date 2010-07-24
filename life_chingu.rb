@@ -65,10 +65,10 @@ end
 if __FILE__ == $0
   DEFAULT_SLEEP = 0
   DEFAULT_PATTERN = 'patterns/Gosper_glider_gun_huge.txt'
-  Main.new(
-    GameOfLife.load_pattern(
-      ARGV.shift || DEFAULT_PATTERN
-    ),
-    ARGV.shift || DEFAULT_SLEEP
-  ).show
+  game = GameOfLife.load_pattern(ARGV.shift || DEFAULT_PATTERN)
+  if size = ARGV.find { |arg| /^\d+(x|\*)\d+$/ === arg }
+    w, h = ARGV.delete(size).split(/x|\*/).map(&:to_i)
+    game = game.enlarge(w/2-game.width/2,h/2-game.height/2,w,h)
+  end
+  Main.new(game, ARGV.shift || DEFAULT_SLEEP).show
 end
