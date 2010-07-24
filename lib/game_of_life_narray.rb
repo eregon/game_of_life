@@ -15,8 +15,6 @@ class GameOfLife
     self.state = case width
     when Array
       width
-    when String
-      width.lines.map { |line| line.chomp.chars.map { |v| (%w[x X].include? v) ? 1 : 0 } }
     else
       Array.new(height) { Array.new(width) { rand(2) } }
     end

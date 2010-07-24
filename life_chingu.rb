@@ -66,10 +66,8 @@ if __FILE__ == $0
   DEFAULT_SLEEP = 0
   DEFAULT_PATTERN = 'patterns/Gosper_glider_gun_huge.txt'
   Main.new(
-    GameOfLife.new(
-      IO.read(
-        ARGV.shift || DEFAULT_PATTERN
-      )
+    GameOfLife.load_pattern(
+      ARGV.shift || DEFAULT_PATTERN
     ),
     ARGV.shift || DEFAULT_SLEEP
   ).show

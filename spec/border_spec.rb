@@ -1,20 +1,15 @@
 require 'spec_helper'
 
 describe "GameOfLife (Border)" do
-  let(:glider) {
-    [load_pattern('glider'), 4, [1, 1]]
-  }
-
-  let(:lightweight_spaceship) {
-    [load_pattern('lightweight_spaceship'), 4, [2, 0]]
-  }
-
-  [:glider, :lightweight_spaceship].each do |spaceship|
-    it "#{spaceship} should be at the same place after a cycle" do
-      spaceship, period, advance = send(spaceship)
-      game = GameOfLife.new(spaceship.dup)
-      cycle = (advance.last > advance.first ? spaceship.size : spaceship.first.size) *
-              period / advance.max
+  [
+    [GameOfLife.load_pattern('spaceships/glider'), 4, [1, 1]],
+    [GameOfLife.load_pattern('spaceships/lightweight_spaceship'), 4, [2, 0]]
+  ].each_with_index do |(game, period, (advance_x,advance_y)), i|
+    it "spaceship #{i+1} should be at the same place after a cycle" do
+      game = game.surround.enlarge(0, 0, 5*advance_x*period, 5*advance_y*period)
+      spaceship = game.state
+      cycle = (advance_y > advance_x ? game.height : game.width) *
+              period / [advance_x,advance_y].max
       cycle.times { game.evolve }
       game.state.should == spaceship
     end

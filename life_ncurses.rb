@@ -59,10 +59,8 @@ if __FILE__ == $0
     puts "ruby #{$0} [pattern=#{DEFAULT_PATTERN}] [sleep_time=#{DEFAULT_SLEEP}]"
   else
     LifeNcurses.new(
-      GameOfLife.new(
-        IO.read(
-          ARGV.shift || DEFAULT_PATTERN
-        )
+      GameOfLife.load_pattern(
+        ARGV.shift || DEFAULT_PATTERN
       ),
       ARGV.shift || DEFAULT_SLEEP
     )

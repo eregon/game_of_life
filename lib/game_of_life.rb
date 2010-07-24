@@ -5,7 +5,47 @@ if RUBY_VERSION < "1.9.2"
 end
 
 unless defined? GameOfLife
-  require File.expand_path("../game_of_life_" + "cwrap", __FILE__)
+  require File.expand_path("../game_of_life_" + "c", __FILE__)
+end
+
+class GameOfLife
+  def self.load_pattern(pattern)
+    unless File.file? pattern
+      pattern = File.expand_path("../../patterns/#{pattern}.txt", __FILE__)
+    end
+    ary = IO.read(pattern).lines.drop_while { |line|
+      line.chars.first == '!'
+    }.map { |line|
+      line.chomp.tr('xXO .', '11100').chars.map(&:to_i)
+    }
+    width = ary.map(&:size).max
+    GameOfLife.new ary.map { |row| row + [0]*(width-row.size) }
+  end
+
+  def height
+    state.size
+  end
+
+  def width
+    state.first.size
+  end
+
+  def enlarge(x, y, width, height)
+    w, h = self.width, self.height
+    GameOfLife.new Array.new([height,h+y].max) { |i|
+      Array.new([width,w+x].max) { |j|
+        if (0...h).include?(i-y) and (0...w).include?(j-x)
+          state[i-y][j-x] rescue 0
+        else
+          0
+        end
+      }
+    }
+  end
+
+  def surround
+    enlarge(1, 1, width+2, height+2)
+  end
 end
 
 if __FILE__ == $0

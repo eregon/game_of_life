@@ -23,7 +23,7 @@ static VALUE gol_alloc(VALUE klass) {
   Grid *grid;
   return Data_Make_Struct(klass, Grid, 0, free, grid);
 }
-
+/*
 static VALUE gol_initialize_block_char(VALUE v, VALUE data2, int argc, VALUE argv) {
   char c = *RSTRING_PTR(v);
   return BOOL(c == 'X' || c == 'x');
@@ -33,7 +33,7 @@ static VALUE gol_initialize_block_line(VALUE line, VALUE data2, int argc, VALUE 
   line = rb_funcall(line, rb_intern("chomp"), 0);
   line = rb_funcall(line, rb_intern("chars"), 0);
   return rb_block_call(line, rb_intern("map"), 0, EMPTY_ARGS, gol_initialize_block_char, Qnil);
-}
+} */
 
 static VALUE gol_initialize(int argc, VALUE *argv, VALUE self) {
   VALUE first, second;
@@ -42,9 +42,9 @@ static VALUE gol_initialize(int argc, VALUE *argv, VALUE self) {
     second = first;
   if(rb_obj_is_kind_of(first, rb_cArray)) {
     gol_set_state(self, first);
-  } else if(rb_obj_is_kind_of(first, rb_cString)) {
-    VALUE ary = rb_funcall(first, rb_intern("lines"), 0);
-    gol_set_state(self, rb_block_call(ary, rb_intern("map"), 0, EMPTY_ARGS, gol_initialize_block_line, Qnil));
+  // } else if(rb_obj_is_kind_of(first, rb_cString)) {
+  //   VALUE ary = rb_funcall(first, rb_intern("lines"), 0);
+  //   gol_set_state(self, rb_block_call(ary, rb_intern("map"), 0, EMPTY_ARGS, gol_initialize_block_line, Qnil));
   } else {
     int width  = NUM2INT(first), height = NUM2INT(second);
     VALUE grid = rb_ary_new2(height), row;

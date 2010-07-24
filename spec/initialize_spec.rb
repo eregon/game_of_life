@@ -13,9 +13,8 @@ describe "GameOfLife (#initialize)" do
     GameOfLife.new(ary).state.should == ary
   end
 
-  it "should initialize with a  String" do
-    str = "x x \nX  x\n X  "
-    GameOfLife.new(str).state.should == ary
+  it "should initialize with a pattern" do
+    GameOfLife.load_pattern("still_lifes/boat").state.should == [[1,1,0],[1,0,1],[0,1,0]]
   end
 
   it "should initialize with an Integer (width)" do

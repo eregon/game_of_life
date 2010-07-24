@@ -54,7 +54,7 @@ Shoes.app :title => 'Game of Life'do
     @animation.stop
   end
 
-  @game = GameOfLife.new IO.read('patterns/glider.txt')
+  @game = GameOfLife.load_pattern('patterns/glider.txt')
   @height = @game.state.size
   @width = @game.state.first.size
   @n = 0

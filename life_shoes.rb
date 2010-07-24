@@ -22,7 +22,7 @@ Shoes.app :title => 'Game of Life'do
 
   def show_cells
     ## INSERT YOUR OWN CLASS WITH ITS ARGUMENTS HERE ##
-    @game ||= GameOfLife.new IO.read('patterns/Gosper_glider_gun.txt')
+    @game ||= GameOfLife.load_pattern('patterns/Gosper_glider_gun.txt')
     @n ||= 0
     @e = every @speed.text.to_f do
       @generation.text = "Generation: #{@n += 1}"

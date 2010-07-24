@@ -2,21 +2,21 @@ require 'spec_helper'
 
 describe "GameOfLife (Spaceships)" do
   let(:glider) {
-    [load_pattern('glider'), 4, [1, 1]]
+    [GameOfLife.load_pattern('glider'), 4, [1, 1]]
   }
 
   let(:lightweight_spaceship) {
-    [load_pattern('lightweight_spaceship'), 4, [2, 0]]
+    [GameOfLife.load_pattern('lightweight_spaceship'), 4, [2, 0]]
   }
 
   [:glider, :lightweight_spaceship].each do |spaceship|
-    it "#{spaceship} should fly" do
-      spaceship, period, advance = send(spaceship)
-      advance_x, advance_y = advance
-      game = GameOfLife.new(spaceship.dup)
+    it "Spaceship should fly" do
+      game, period, (advance_x,advance_y) = send(spaceship)
+      game.enlarge(0, 0, game.width+period, game.height+period).surround
+      spaceship = game.state
       period.times { game.evolve }
-      spaceship_moved = Array.new(spaceship.size) { |y|
-        Array.new(spaceship.first.size) { |x|
+      spaceship_moved = Array.new(game.height) { |y|
+        Array.new(game.width) { |x|
           spaceship[y-advance_y][x-advance_x]
         }
       }
