@@ -3,8 +3,8 @@
 # A more complete one would just be ridiculous to the awesome example they give
 #
 
-require 'chingu'
 require 'gosu'
+require 'chingu'
 
 require './lib/game_of_life'
 
