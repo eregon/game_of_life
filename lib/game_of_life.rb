@@ -3,10 +3,12 @@ if RUBY_VERSION < "1.9.2"
   $: << File.expand_path("../backports-1.18.1/lib", __FILE__)
   require "backports/1.9.2"
 
-  class Array
-    def map
-      return to_enum(:map) unless block_given?
-      super
+  if Array === [].map
+    class Array
+      def map
+        return to_enum(:map) unless block_given?
+        super
+      end
     end
   end
 end

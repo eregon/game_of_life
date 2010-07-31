@@ -54,9 +54,9 @@ Shoes.app :title => 'Game of Life'do
     @animation.stop
   end
 
-  @game = GameOfLife.load_pattern('patterns/glider.txt')
-  @height = @game.state.size
-  @width = @game.state.first.size
+  @game = GameOfLife.load_pattern('spaceships/glider').surround(10)
+  @height = @game.height
+  @width = @game.width
   @n = 0
   @cells = initialize_cells
 
@@ -75,8 +75,6 @@ Shoes.app :title => 'Game of Life'do
       para 'real fps: '
       @real_fps = para
     end
-
-    @note = para "notes"
   end
 
   start
