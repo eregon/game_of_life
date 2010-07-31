@@ -43,8 +43,8 @@ class GameOfLife
     }
   end
 
-  def surround
-    enlarge(1, 1, width+2, height+2)
+  def surround(by = 1)
+    enlarge(by, by, width+2*by, height+2*by)
   end
 end
 

@@ -11,7 +11,8 @@ def patterns(dir)
 end
 
 def show(ary)
-  puts "--begin"
-  puts ary.to_s.lines.map { |l| l.chomp+"|\n" }
+  ary = ary.state if GameOfLife === ary
+  puts "--begin (h: #{ary.size}, w: #{ary.map(&:size).uniq})"
+  puts ary.map { |l| l.map { |cell| cell == 1 ? '#' : ' ' }.join.chomp+"|\n" }
   puts "--end"
 end
