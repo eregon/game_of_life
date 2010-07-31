@@ -49,7 +49,7 @@ class GameOfLife
 end
 
 if __FILE__ == $0
-  game = GameOfLife.new IO.read('patterns/Gosper_glider_gun.txt')
+  game = GameOfLife.load_pattern('patterns/Gosper_glider_gun.txt')
   100.times {
     game.evolve
     puts game

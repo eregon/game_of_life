@@ -19,8 +19,7 @@ class Main < Chingu::Window
   end
 
   def draw
-    super
-    fill_rect([0, 0, @width, @height], 0xffffffff, -1)
+    super and fill_rect([0, 0, @width, @height], 0xffffffff, -1)
   end
 end
 
@@ -54,7 +53,7 @@ class GameOfLifeState < Chingu::GameState
     super()
     $window.caption = @caption
     @game.state.each_with_index do |row, y|
-      row.each_with_index do |cell,x|
+      row.each_with_index do |cell, x|
         $window.fill_rect([x*CELL_SIZE, y*CELL_SIZE, CELL_SIZE-1, CELL_SIZE-1], 0xff0000aa) if cell == 1
         # $window.draw_circle(x*CELL_SIZE, y*CELL_SIZE, CELL_SIZE/2, 0xff0000aa) if cell == 1
       end
