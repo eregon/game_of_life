@@ -39,3 +39,5 @@ size,evolutions,implementation,git commit message
 30,30 [CWrap: 0.002, C: 0.002, NArray: 0.005, Fast: 0.066, Boolean: 0.089, Integer: 0.093, State: 0.107, Cell: 0.120, Fiber: 0.394]
 100,100 0.062 CWrap   change type of Grid.grid from int* to char*
 100,100 [C: 0.064, CWrap: 0.065]
+30,30 0.087 Boolean add README
+30,30 [CWrap: 0.002, C: 0.002, NArray: 0.006, Fast: 0.069, Boolean: 0.089, Integer: 0.089, State: 0.109, Cell: 0.119, Fiber: 0.396]
