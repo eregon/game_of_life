@@ -1,6 +1,6 @@
 # My Solution (eregon) #
 
-This solution is rather big, in size of code and numbers of file.
+This solution is rather big, in size of code and number of files.
 
 I did coded up to 9 implementations. Some are very similar.
 
@@ -40,6 +40,17 @@ I did coded up to 9 implementations. Some are very similar.
 ## Visualizations
 
 I added a Chingu (derived from their example), and tried to improve the NCurses and Shoes ones.
+I also did one with Swing in JRuby.
+
+* Swing
+
+This is a very simple visualization, but is reasonably fast (~30fps).
+It shows it is possible to do short and elegant code with raw Java.
+It, of course, needs JRuby.
+
+It accepts an optional pattern\_file and size (w*h) as command-line arguments
+
+`jruby life_swing.rb patterns/spaceships/glider.txt 50*50`
 
 * Shoes
 
@@ -49,7 +60,7 @@ Shoes is notably slow, and then can not be use for large patterns.
 
 Chingu however, is quite fast because based on Gosu (~60fps).
 
-Chingu accepts an optional pattern\_file and size(w*h) as command-line arguments
+It accepts an optional pattern\_file and size (w*h) as command-line arguments
 
 `ruby life_chingu.rb patterns/spaceships/glider.txt 50*50`
 
@@ -59,7 +70,7 @@ You can make it faster with `j`, slower with `k` and pause with `l`
 
 NCurses beat them all, because it is text based (~800fps)
 
-NCurses accepts an optional pattern\_file and sleep\_time as command-line arguments
+It accepts an optional pattern\_file and sleep\_time as command-line arguments
 
 `ruby life_ncurses.rb patterns/Gosper_glider_gun_huge.txt 0.1`
 
@@ -116,6 +127,13 @@ A few others methods are defined in `game_of_life.rb`, to avoid repetition.
 Note that to know if the cell-Objects are alive, you have to use == 0 or == 1,
  and this is not transitive (no 1 ==)
   because it would require a lot of monkey patching for a small gain.
+
+## Format
+
+`GameOfLife#load_pattern` accepts String separated by newlines, with alive being one of x,X,O and dead ' ' or '.'.
+Lines beginning with '!' are considered as comments.
+
+It should then support any plaintext pattern file from [ConwayLife.com](http://www.conwaylife.com).
 
 ## Hierarchy
 
