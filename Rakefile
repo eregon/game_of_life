@@ -1,9 +1,40 @@
+begin
+  require "term/ansicolor"
+  include Term::ANSIColor
+rescue
+  def green s
+    "\e[32m#{s}\e[0m"
+  end
+  def red s
+    "\e[31m#{s}\e[0m"
+  end
+end
+
 desc "run specs across all implementations"
 task :spec do
   Dir['./lib/game_of_life_*.rb'].each { |implementation|
-    puts
-    puts implementation.split('_').last
-    puts `rspec -f progress -r #{implementation} spec`.lines.reject { |line| line.chomp.empty? }.join
+    print implementation.split('_').last + ": "
+    # puts `rspec -f progress -r #{implementation} spec`.lines.reject { |line| line.chomp.empty? }.join
+    puts system("rspec -f progress -r #{implementation} spec &> /dev/null") ? green("PASS") : red("FAIL")
+  }
+end
+
+require 'cucumber/rake/task'
+Cucumber::Rake::Task.new(:features) do |t|
+  opts = "features --format progress"
+end
+
+desc "run Cucumber across all implementations"
+task :cucumber do
+  Dir['./lib/game_of_life_*.rb'].each { |implementation|
+    print implementation.split('_').last + ": "
+    cmd = ["cucumber"]
+    cmd << "-r #{implementation} -r lib/game_of_life.rb"
+    cmd << "-r features/step_definitions/game_of_life_steps.rb"
+    cmd << "--format progress --quiet"
+    cmd << "features"
+    cmd << "&> /dev/null"
+    puts system(cmd.join(' ')) ? green("PASS") : red("FAIL")
   }
 end
 
