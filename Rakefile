@@ -15,7 +15,9 @@ task :spec do
   Dir['./lib/game_of_life_*.rb'].each { |implementation|
     print implementation.split('_').last + ": "
     # puts `rspec -f progress -r #{implementation} spec`.lines.reject { |line| line.chomp.empty? }.join
-    puts system("rspec -f progress -r #{implementation} spec &> /dev/null") ? green("PASS") : red("FAIL")
+    cmd = "rspec -f progress -r #{implementation} spec"
+    cmd << " &> /dev/null"
+    puts system(cmd) ? green("PASS") : red("FAIL")
   }
 end
 

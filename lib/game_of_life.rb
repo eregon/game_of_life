@@ -1,11 +1,18 @@
 if RUBY_VERSION < "1.9.2"
   # Using a local copy of `backports` as Shoes can not access rubygems
   $: << File.expand_path("../backports-1.18.1/lib", __FILE__)
-  require "backports"
+  require "backports/1.9.2"
+
+  class Array
+    def map
+      return to_enum(:map) unless block_given?
+      super
+    end
+  end
 end
 
 unless defined? GameOfLife
-  require File.expand_path("../game_of_life_" + "c", __FILE__)
+  require File.expand_path("../game_of_life_" + "boolean", __FILE__)
 end
 
 class GameOfLife
