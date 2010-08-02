@@ -156,11 +156,11 @@ Visualizations are the life_*.rb scripts, implementations are in lib.
 
 `rake -T` will tell you everything:
 
-<code>rake bench:compare  # run comparative bench on all implementations
-rake bench:single   # run single bench on default implementation in lib/game_of_life.rb
-rake cucumber       # run Cucumber across all implementations
-rake features       # Run Cucumber features
-rake spec           # run specs across all implementations</code>
+    rake bench:compare  # run comparative bench on all implementations
+    rake bench:single   # run single bench on default implementation in lib/game_of_life.rb
+    rake cucumber       # run Cucumber across all implementations
+    rake features       # Run Cucumber features
+    rake spec           # run specs across all implementations
 
 Have a look at `bench.log` which contains a full history of the implementations and the benchmarks.
 
