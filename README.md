@@ -83,21 +83,25 @@ Others should be ok with 1.8, but were not extensively tested.
 ### Gems
 Many gems are used, but only for visualizations, test or compatibility, except NArray.
 
+NArray implementation:
+
+  * `narray`
+
 Test:
 
   * `rspec --pre` (RSpec 2)
-  * cucumber
-  * rake
+  * `cucumber`
+  * `rake`
 
 Compatibility (with 1.8.7):
 
-  * backports (currently copied in lib, so you do not need it)
+  * `backports` (currently copied in lib, so you do not need it)
 
 Visualizations:
 
   * [Shoes 3](http://wiki.github.com/shoes/shoes/recentbuilds)
-  * ncurses (See below)
-  * chingu
+  * `ncurses` (See below)
+  * `chingu`
 
 ### C extensions
 
@@ -140,6 +144,18 @@ It should then support any plaintext pattern file from [ConwayLife.com](http://w
 Visualizations are the life_*.rb scripts, implementations are in lib.
 
 `lib/game_of_life.rb` has to be `#require` and you can choose the implementation by first requiring the implementation.
+
+## Rake tasks
+
+`rake -T` will tell you everything:
+
+<code>rake bench:compare  # run comparative bench on all implementations
+rake bench:single   # run single bench on default implementation in lib/game_of_life.rb
+rake cucumber       # run Cucumber across all implementations
+rake features       # Run Cucumber features
+rake spec           # run specs across all implementations</code>
+
+Have a look at `bench.log` which contains a full history of the implementations and the benchmarks.
 
 ## About my solution
 
