@@ -83,6 +83,13 @@ Others should be ok with 1.8, but were not extensively tested.
 ### Gems
 Many gems are used, but only for visualizations, test or compatibility, except NArray.
 
+For convenience, a Gemfile has been added.
+
+You can then simply do a `bundle install` (you need to have `bundler`).
+
+Shoes still need to be downloaded separately, though.
+Pay also attention to `ffi-ncurses`, please have a look below.
+
 NArray implementation:
 
   * `narray`
@@ -100,7 +107,7 @@ Compatibility (with 1.8.7):
 Visualizations:
 
   * [Shoes 3](http://wiki.github.com/shoes/shoes/recentbuilds)
-  * `ncurses` (See below)
+  * `ffi-ncurses` (See below)
   * `chingu`
 
 ### C extensions

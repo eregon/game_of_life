@@ -5,3 +5,4 @@
 Makefile
 lib/backports-1.18.1
 lib/ffi-ncurses
+Gemfile.lock
