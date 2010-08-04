@@ -116,7 +116,7 @@ The C extensions can only be used (easily) with MRI 1.9.
 
 You need to do the following to compile it:
 
-* `cd ext` (`ext_wrap` pour Cwrap)
+* `cd ext` (`ext_wrap` for Cwrap)
 * `ruby extconf.rb`
 * `make`
 
